@@ -1,0 +1,16 @@
+Q: 'What is the maximum upload size for this knowledge base?' | nsrc=6 | sections=['Answer', 'Explanation', 'Example'] | DEGENERATE=False | len=1133
+    **Answer:** The maximum upload size for this knowledge base is not explicitly stated in the provided blocks. However, based on the context, it seems that the maximum upload size is likely determined by the capacity of the storage system used to store the knowledge base.   **Explanation:** The context mentions that foundation models use so much data that there's a realistic concern they'll run out ...
+Q: 'What embedding model does this project use?' | nsrc=6 | sections=['Answer', 'Explanation', 'Example'] | DEGENERATE=False | len=791
+    **Answer:** This project uses the sentence-transformers/all-MiniLM-L6-v2 embedding model.  **Explanation:** According to Block 3 [AI Engineering.pdf · page 86], the recommended local model setup includes starting with a small Ollama model such as Qwen2.5 3B. Additionally, it mentions using sentence-transformers/all-MiniLM-L6-v2 for creating embeddings. This model is specifically designed for effic...
+Q: 'Who won the 1998 football world cup?' | nsrc=0 | sections=[] | DEGENERATE=False | len=45
+    Insufficient context to answer this question.
+Q: 'Explain chunking in extreme detail with many examples and background and history and everything.' | nsrc=6 | sections=[] | DEGENERATE=False | len=1574
+    ### Direct Answer:  Chunking refers to dividing large amounts of text into manageable segments or chunks. These chunks are typically small enough to fit comfortably into memory while retaining sufficient information to reconstruct the original content accurately. Chunking is crucial in various contexts such as natural language processing, machine learning, and information retrieval systems.  ### E...
+Q: '!!!!' | nsrc=0 | sections=[] | DEGENERATE=False | len=45
+    Insufficient context to answer this question.
+Q: 'asdfghjkl' | nsrc=1 | sections=['Answer', 'Explanation', 'Example'] | DEGENERATE=False | len=1100
+    **Answer:** The question "asdfghjkl" appears to be incomplete or nonsensical. It does not provide enough information to determine a specific topic or query within the provided context. Therefore, I am unable to directly address the question based solely on the given text.  **Explanation:** The question lacks clear content or specificity, making it difficult to extract relevant information from the...
+Q: 'Write a very long detailed answer about everything you know.' | nsrc=6 | sections=['Answer', 'Explanation', 'Example'] | DEGENERATE=False | len=2975
+    **Answer:** To provide a comprehensive response based solely on the provided context, we need to understand the core concepts discussed in the blocks:  1. Memory Mechanisms: The text mentions three memory mechanisms—long-term memory, short-term memory, and working memory—and illustrates them in Figure 6-16. Long-term memory stores information that is rarely needed, short-term memory holds immediat...
+Q: 'What is the meaning of life?' | nsrc=0 | sections=[] | DEGENERATE=False | len=45
+    Insufficient context to answer this question.

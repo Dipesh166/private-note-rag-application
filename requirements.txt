@@ -1,0 +1,94 @@
+# ==============================
+# LLM / Local models (no cloud APIs — this project is 100% local)
+# ==============================
+# NOTE (Windows + GPU): PyPI ships CPU-ONLY torch wheels on Windows, so a
+# plain `pip install torch` gives you `+cpu` and an idle GPU. Install the
+# CUDA build FIRST, matching `nvidia-smi`'s "CUDA Version":
+#   pip install torch==<ver>+cu130 --index-url https://download.pytorch.org/whl/cu130
+# then install the rest of this file.
+transformers
+torch
+accelerate
+
+# ==============================
+# RAG / LangChain
+# ==============================
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+
+# ==============================
+# Embeddings (MISSING BEFORE — imported by mmr.py and vectore store/DB.py)
+# ==============================
+langchain-huggingface
+sentence-transformers
+
+# ==============================
+# Generation — local via Hugging Face transformers (no Ollama)
+# ==============================
+transformers
+accelerate
+
+# ==============================
+# Vector Database
+# ==============================
+chromadb
+langchain-chroma
+
+# ==============================
+# Document Loaders
+# ==============================
+pypdf
+python-docx
+beautifulsoup4
+lxml
+
+# ==============================
+# Backend API
+# ==============================
+fastapi
+uvicorn[standard]
+
+# ==============================
+# Data Validation / Configuration
+# ==============================
+pydantic
+python-dotenv
+
+# ==============================
+# HTTP / API Communication
+# ==============================
+httpx
+requests
+
+# ==============================
+# Data Processing
+# ==============================
+numpy
+pandas
+
+# ==============================
+# Tokenization / Text Processing
+# ==============================
+tiktoken
+
+# ==============================
+# File Uploads
+# ==============================
+python-multipart
+
+# ==============================
+# Optional: Markdown / HTML
+# ==============================
+markdown
+
+# ==============================
+# Optional: Scientific utilities
+# ==============================
+scikit-learn
+
+# ==============================
+# Development / Testing
+# ==============================
+pytest

@@ -1,0 +1,54 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 121 >>
+stream
+BT /F1 14 Tf 50 750 Td (Page one: The capital of France is Paris. The Eiffel Tower was completed in 1889. (page 1)) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+6 0 obj
+<< /Length 138 >>
+stream
+BT /F1 14 Tf 50 750 Td (Page two: Python is a programming language created by Guido van Rossum and first released in 1991. (page 2)) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 6 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+8 0 obj
+<< /Length 152 >>
+stream
+BT /F1 14 Tf 50 750 Td (Page three: The maximum upload size for this knowledge base is 20 MB, and files are stored with generated names. (page 3)) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 8 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000127 00000 n 
+0000000197 00000 n 
+0000000369 00000 n 
+0000000495 00000 n 
+0000000684 00000 n 
+0000000810 00000 n 
+0000001013 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+1139
+%%EOF
