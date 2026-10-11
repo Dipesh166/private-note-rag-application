@@ -81,6 +81,10 @@ dist-ssr/
 .eslintcache
 *.tsbuildinfo
 
+# ── Project documents (plans / specs — not app code) ────────────────────
+IMPLEMENTATION_PLAN.md
+Private_Knowledge_Base_Local_RAG_Project_Plan*
+
 # ── Misc ────────────────────────────────────────────────────────────────
 tmp/
 temp/
