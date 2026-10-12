@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gc
 import logging
+import re
 import threading
 from functools import lru_cache
 from typing import TYPE_CHECKING, Any
@@ -15,6 +16,28 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 __all__ = ["GenerationError", "HFTransformersClient", "get_llm"]
+
+# "template template template template ..." style repetition loops.
+_REPEAT_RUN = re.compile(r"\b(\w{2,20})(?:\s+\1){4,}", re.IGNORECASE)
+
+def _looks_degenerate(text: str) -> bool:
+    """True when the answer is token soup instead of English prose."""
+    if not text.strip():
+        return True
+    if _REPEAT_RUN.search(text):
+        return True
+    if text.count("\ufffd") > 10:
+        return True
+    if sum(1 for ch in text if ord(ch) >= 0x1F300) > 10:
+        return True
+    letters = [ch for ch in text if ch.isalpha()]
+    if len(letters) >= 40:
+        # Non-Latin/emoji bursts (Chinese, Korean, Devanagari, ...) in an
+        # English answer means the logits collapsed.
+        odd = sum(1 for ch in letters if ord(ch) > 0x024F)
+        if odd / len(letters) > 0.15:
+            return True
+    return False
 
 class HFTransformersClient:
     def __init__(self) -> None:
@@ -37,6 +60,8 @@ class HFTransformersClient:
             import torch
             from transformers import AutoModelForCausalLM, AutoTokenizer
 
+            # NEVER use float16 on CPU: PyTorch's CPU fp16 kernels produce
+            # NaN/garbage logits, which shows up as token soup in the answer.
             dtype = torch.float16 if self._device == "cuda" else torch.float32
 
             logger.info(
@@ -53,8 +78,18 @@ class HFTransformersClient:
             )
             try:
                 self._model.to(self._device)
-            except Exception:
-                pass
+            except Exception as exc:
+                # Do not swallow this: a fp16 model left on CPU answers with
+                # garbage. Fall back to float32 on CPU instead.
+                logger.warning(
+                    "moving LLM to %s failed (%s); falling back to cpu/float32",
+                    self._device,
+                    exc,
+                )
+                if dtype != torch.float32:
+                    self._model.to("cpu", torch.float32)
+                dtype = torch.float32
+                self._device = "cpu"
             self._model.eval()
             logger.info("LLM ready: %s on %s", self._model_name, self._device)
 
@@ -73,7 +108,7 @@ class HFTransformersClient:
     def ready(self) -> bool:
         return self._model is not None
 
-    def generate(self, system: str, user: str) -> str:
+    def generate(self, system: str, user: str, _retry: bool = True) -> str:
         import torch
 
         self._ensure_loaded()
@@ -102,6 +137,8 @@ class HFTransformersClient:
                     max_new_tokens=self._max_new_tokens,
                     do_sample=self._temperature > 0,
                     temperature=self._temperature or None,
+                    repetition_penalty=1.1,
+                    eos_token_id=self._tokenizer.eos_token_id,
                     pad_token_id=self._tokenizer.eos_token_id,
                 )
 
@@ -109,6 +146,20 @@ class HFTransformersClient:
             text = self._tokenizer.decode(generated, skip_special_tokens=True).strip()
             if not text:
                 raise GenerationError("Model produced an empty response.")
+            if _looks_degenerate(text):
+                if not _retry:
+                    raise GenerationError(
+                        "The LLM returned a degenerate (repetitive/garbled) "
+                        "answer. Free VRAM (close GPU apps) or lower "
+                        "LLM_MAX_NEW_TOKENS, then try again."
+                    )
+                # In-process state went bad (VRAM pressure / fp16 fallback).
+                # Drop the weights, reload once and retry.
+                logger.warning("degenerate output detected; reloading LLM and retrying")
+                self._free()
+                if self._device == "cuda":
+                    torch.cuda.empty_cache()
+                return self.generate(system, user, _retry=False)
             return text
 
         except torch.OutOfMemoryError as exc:
